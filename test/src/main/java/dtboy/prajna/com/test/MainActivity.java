@@ -22,9 +22,6 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         HTTPUtil.initHttpCache(this);
-        String s = "[{},{}]";
-//        String s1 = HTTPUtil.gson.fromJson(s, String.class);
-//        Log.e("sadf", s1);
         request();
     }
 
@@ -44,6 +41,11 @@ public class MainActivity extends Activity {
                     @Override
                     public void no(String error) {
                         Toast.makeText(MainActivity.this, error, Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void cache(String response) {
+                        super.cache(response);
                     }
                 })
                 .done();
