@@ -8,12 +8,12 @@ A sex http library, Simple and convenient, support many cache mechanism, simplif
 ```java
 //Add it in your root build.gradle at the end of repositories:
 repositories {
-		...
-	  maven { url 'https://jitpack.io' }
+	...
+	maven { url 'https://jitpack.io' }
 }
 //Add it in your module build.gradle
 dependencies {
-	  compile 'com.github.dtboy1995:float-compute-patch:-SNAPSHOT'
+  compile 'com.github.dtboy1995:android-sex-http:0.0.1'
 }
 ```
 
