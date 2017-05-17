@@ -15,7 +15,7 @@ allprojects {
 }
 //Add it in your module build.gradle
 dependencies {
-  compile 'com.github.User:Repo:Tag'
+  compile 'com.github.dtboy1995:android-sex-http:0.0.1'
 }
 ```
 
