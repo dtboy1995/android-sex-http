@@ -50,16 +50,16 @@ HTTPModel
 - **NoCache**   
   - Get remote server data directly
 - **CacheOnly**
- - If the cache exists, only cache is taken
+  - If the cache exists, only cache is taken
 - **CacheAndRemote**
- - Take the cache once and fetch the data from the remote server
+  - Take the cache once and fetch the data from the remote server
 - **IgnoreCache**
- - Update cache and fetch remote server data
+  - Update cache and fetch remote server data
 - **CacheOrRemote**
- - If the network is unblocked, remote server data is obtained and cached data is obtained without a network connection
+  - If the network is unblocked, remote server data is obtained and cached data is obtained without a network connection
 
 # response
 - **HTTPResult&lt;T&gt;**
-  - Data type that needs to be serialized
-  - Can override cache to handle the cache by yourself
-  - Can override disconneted to handle not network
+  - T is data type that needs to be serialized
+  - Can override cache() to handle the cache by yourself
+  - Can override disconneted() to deal with no network
