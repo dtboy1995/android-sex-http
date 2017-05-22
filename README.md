@@ -29,6 +29,7 @@ android {
     }
 }
 ```
+
 # global setting
 ```java
 // execute once
@@ -64,6 +65,7 @@ HTTPUtil.globalRequestHandler = new IGlobalRequestHandler() {
     }
 };
 ```
+
 # usage
 ```java
 // get request sample
@@ -132,6 +134,7 @@ Request
   .done();
   // ...
 ```
+
 # cache policy
 - **NoCache**   
   - Get remote server data directly
