@@ -29,8 +29,7 @@ android {
     }
 }
 ```
-
-# usage
+# global setting
 ```java
 // execute once
 // init cache core
@@ -64,7 +63,10 @@ HTTPUtil.globalRequestHandler = new IGlobalRequestHandler() {
         return headers;
     }
 };
-// get sample
+```
+# usage
+```java
+// get request sample
 HTTPModel
     .build()
     .setUrl("/foo")
@@ -92,7 +94,7 @@ HTTPModel
         }
     })
     .done();
-// post sample
+// post request sample
 Request
     .build()
     .setMethod(Method.POST)
