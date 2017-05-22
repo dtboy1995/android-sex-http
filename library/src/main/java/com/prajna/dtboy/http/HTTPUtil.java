@@ -18,22 +18,55 @@ import java.security.MessageDigest;
 
 public class HTTPUtil {
 
-    public static String URL = "";
-
-    private static final int HTTP_PORT = 80;
-    private static final int HTTPS_PORT = 443;
+    // the base url
+    public static String BASE_URL;
+    // the http content type
+    public static final String CONTENT_TYPE = "application/json";
+    // the http port
+    private static int HTTP_PORT = 80;
+    // the https port
+    private static int HTTPS_PORT = 443;
+    // the char set
     public static final String CHARSET = "UTF-8";
-
+    // http core
     public static AsyncHttpClient client = new AsyncHttpClient(true, HTTP_PORT, HTTPS_PORT);
+    // json tools
     public static Gson gson = new Gson();
+    // cache core
+    public static DualCache<String> cache;
 
+    // default http setting
     static {
-        client.setTimeout(3000);
         client.setURLEncodingEnabled(false);
-        client.setMaxRetriesAndTimeout(1, 2000);
     }
 
-    public static DualCache<String> cache;
+    public static IGlobalResponseHandler globalResponseHandler;
+    public static IGlobalRequestHandler globalRequestHandler;
+
+    private static String CACHE_KEY;
+
+    public static void setCacheKey(String key) {
+        CACHE_KEY = key;
+    }
+
+    public static void setHttpPort(int httpPort) {
+        HTTP_PORT = httpPort;
+        client = new AsyncHttpClient(true, HTTP_PORT, HTTPS_PORT);
+        client.setURLEncodingEnabled(false);
+    }
+
+    public static void setHttpsPort(int httpsPort) {
+        HTTPS_PORT = httpsPort;
+        client = new AsyncHttpClient(true, HTTP_PORT, HTTPS_PORT);
+        client.setURLEncodingEnabled(false);
+    }
+
+    public static void setPorts(int httpPort, int httpsPort) {
+        HTTP_PORT = httpPort;
+        HTTPS_PORT = httpsPort;
+        client = new AsyncHttpClient(true, HTTP_PORT, HTTPS_PORT);
+        client.setURLEncodingEnabled(false);
+    }
 
     public static void initHttpCache(Context context) {
         CacheSerializer<String> jsonSerializer = new JsonSerializer<>(String.class);

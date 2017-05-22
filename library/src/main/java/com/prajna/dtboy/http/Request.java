@@ -2,29 +2,66 @@ package com.prajna.dtboy.http;
 
 import android.content.Context;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.HttpEntity;
 import cz.msebera.android.httpclient.entity.StringEntity;
+import cz.msebera.android.httpclient.message.BasicHeader;
 
 /**
- * || 默认的访问类型是 accessToken
- * || 默认的缓存策略是 noCache
  */
-public class HTTPModel {
+public class Request {
 
     String url;
     Context context;
-    Header[] headers;
-    String contentType;
-    HTTPResult result;
-    HTTPMethod method;
-    HttpEntity entity;
+    List<Header> headers = new ArrayList<>();
+    String contentType = HTTPUtil.CONTENT_TYPE;
+    CachePolicy cachePolicy = CachePolicy.CacheAndRemote;
+    //
+    Response result;
+    ResponseRaw resultRaw;
+    Method method = Method.GET;
+    HttpEntity body;
     HTTPHandler handler;
 
-    public static HTTPModel build() {
-        HTTPModel model = new HTTPModel();
+    boolean isRawResponse = false;
+    boolean isUseBaseUrl = true;
+
+    public Request setIsUseBaseUrl(boolean isUseBaseUrl) {
+        this.isUseBaseUrl = isUseBaseUrl;
+        return this;
+    }
+
+    public boolean getIsUseBaseUrl() {
+        return this.isUseBaseUrl;
+    }
+
+    public boolean getIsRawResponse() {
+        return isRawResponse;
+    }
+
+    public ResponseRaw getResponseRaw() {
+        return resultRaw;
+    }
+
+    public Request setResponseRaw(ResponseRaw resultRaw) {
+        this.resultRaw = resultRaw;
+        return this;
+    }
+
+    public Request setIsRawResponse(boolean isRawResponse) {
+        this.isRawResponse = isRawResponse;
+        return this;
+    }
+
+    public static Request build() {
+        Request model = new Request();
+        if (HTTPUtil.globalRequestHandler != null) {
+            model.headers.addAll(HTTPUtil.globalRequestHandler.addHeaders());
+        }
         model.handler = new HTTPHandler(model);
         return model;
     }
@@ -33,43 +70,64 @@ public class HTTPModel {
         return context;
     }
 
-    public HTTPModel setContext(Context context) {
+    public Request setContext(Context context) {
         this.context = context;
         return this;
     }
-
-    CachePolicy cachePolicy;
 
     public String getUrl() {
         return url;
     }
 
-    public HTTPModel setUrl(String url) {
-        this.url = url;
+    public Request setUrl(String url) {
+        if (getIsUseBaseUrl()) {
+            if (HTTPUtil.BASE_URL == null) {
+                this.url = url;
+            } else {
+                this.url = String.format("%s%s", HTTPUtil.BASE_URL, url);
+            }
+        } else {
+            this.url = url;
+        }
         return this;
     }
 
-    public HttpEntity getEntity() {
-        return entity;
+    public HttpEntity getBody() {
+        return body;
     }
 
-    public void setEntity(HttpEntity entity) {
-        this.entity = entity;
+    public Request setBody(HttpEntity body) {
+        this.body = body;
+        return this;
     }
 
-    public HTTPModel setEntity(Map<String, Object> map) {
+    public Request setBody(Map<String, Object> map) {
         String json = HTTPUtil.gson.toJson(map);
-        this.entity = new StringEntity(json, HTTPUtil.CHARSET);
+        this.body = new StringEntity(json, HTTPUtil.CHARSET);
         return this;
     }
 
 
     public Header[] getHeaders() {
-        return headers;
+        Header[] results = new Header[headers.size()];
+        for (int i = 0; i < headers.size(); i++) {
+            results[i] = headers.get(i);
+        }
+
+        return results;
     }
 
-    public HTTPModel setHeaders(Header[] headers) {
-        this.headers = headers;
+    public Request setHeaders(Map<String, String> headers) {
+        this.headers.clear();
+        for (Map.Entry<String, String> header : headers.entrySet()) {
+            Header h = new BasicHeader(header.getKey(), header.getValue());
+            this.headers.add(h);
+        }
+        return this;
+    }
+
+    public Request addHeader(String key, String value) {
+        this.headers.add(new BasicHeader(key, value));
         return this;
     }
 
@@ -77,16 +135,16 @@ public class HTTPModel {
         return contentType;
     }
 
-    public HTTPModel setContentType(String contentType) {
+    public Request setContentType(String contentType) {
         this.contentType = contentType;
         return this;
     }
 
-    public HTTPMethod getMethod() {
+    public Method getMethod() {
         return method;
     }
 
-    public HTTPModel setMethod(HTTPMethod method) {
+    public Request setMethod(Method method) {
         this.method = method;
         return this;
     }
@@ -95,16 +153,16 @@ public class HTTPModel {
         return handler;
     }
 
-    public HTTPModel setHandler(HTTPHandler handler) {
+    public Request setHandler(HTTPHandler handler) {
         this.handler = handler;
         return this;
     }
 
-    public HTTPResult getResult() {
+    public Response getResult() {
         return result;
     }
 
-    public HTTPModel setResult(HTTPResult result) {
+    public Request setResponse(Response result) {
         this.result = result;
         return this;
     }
@@ -113,7 +171,7 @@ public class HTTPModel {
         return cachePolicy;
     }
 
-    public HTTPModel setCachePolicy(CachePolicy cachePolicy) {
+    public Request setCachePolicy(CachePolicy cachePolicy) {
         this.cachePolicy = cachePolicy;
         return this;
     }
@@ -188,14 +246,14 @@ public class HTTPModel {
                 if (!HTTPUtil.isNetworkConnected(getContext())) {
                     getResult().disconnected(getContext());
                 } else {
-                    HTTPUtil.client.post(getContext(), getUrl(), getHeaders(), getEntity(), getContentType(), getHandler());
+                    HTTPUtil.client.post(getContext(), getUrl(), getHeaders(), getBody(), getContentType(), getHandler());
                 }
                 break;
             case PUT:
                 if (!HTTPUtil.isNetworkConnected(getContext())) {
                     getResult().disconnected(getContext());
                 } else {
-                    HTTPUtil.client.put(getContext(), getUrl(), getHeaders(), getEntity(), getContentType(), getHandler());
+                    HTTPUtil.client.put(getContext(), getUrl(), getHeaders(), getBody(), getContentType(), getHandler());
                 }
                 break;
             case DELETE:

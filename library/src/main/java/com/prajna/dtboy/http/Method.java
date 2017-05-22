@@ -1,9 +1,8 @@
 package com.prajna.dtboy.http;
 
 /**
- *  HTTP 请求方法枚举
  */
-public enum HTTPMethod {
+public enum Method {
     GET,
     POST,
     PUT,

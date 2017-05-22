@@ -5,17 +5,15 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.prajna.dtboy.http.CachePolicy;
-import com.prajna.dtboy.http.HTTPMethod;
-import com.prajna.dtboy.http.HTTPModel;
-import com.prajna.dtboy.http.HTTPResult;
+import com.prajna.dtboy.http.Method;
+import com.prajna.dtboy.http.Request;
+import com.prajna.dtboy.http.Response;
 import com.prajna.dtboy.http.HTTPUtil;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import cz.msebera.android.httpclient.Header;
-
-import static org.junit.Assert.*;
 
 /**
  * Instrumentation test, which will execute on an Android device.
@@ -31,13 +29,13 @@ public class ExampleInstrumentedTest {
         HTTPUtil.initHttpCache(appContext);
 //
 //        assertEquals("com.prajna.dtboy.test", appContext.getPackageName());
-        HTTPModel
+        Request
                 .build()
                 .setUrl("www.baidu.com")
                 .setCachePolicy(CachePolicy.CacheAndRemote)
                 .setContext(appContext)
-                .setMethod(HTTPMethod.GET)
-                .setResult(new HTTPResult<String>() {
+                .setMethod(Method.GET)
+                .setResponse(new Response<String>() {
                     @Override
                     public void ok(Header[] headers, String response) {
 

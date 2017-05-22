@@ -1,7 +1,6 @@
 package com.prajna.dtboy.http;
 
 import android.content.Context;
-import android.util.Log;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -11,7 +10,7 @@ import cz.msebera.android.httpclient.Header;
 /**
  */
 
-public abstract class HTTPResult<T> implements HTTPResultHandler {
+public abstract class Response<T> implements HTTPResultHandler {
 
     public abstract void ok(Header[] headers, T response);
 
@@ -31,17 +30,21 @@ public abstract class HTTPResult<T> implements HTTPResultHandler {
 
     @Override
     public void disconnected(Context context) {
-
+        if (HTTPUtil.globalResponseHandler != null) {
+            HTTPUtil.globalResponseHandler.disconnected(context);
+        }
     }
 
     @Override
-    public void fail(String errorMsg, Throwable throwable) {
+    public void fail(String errorMsg, Context context) {
+        if (HTTPUtil.globalResponseHandler != null) {
+            HTTPUtil.globalResponseHandler.fail(errorMsg, context);
+        }
         no(errorMsg);
     }
 
     @Override
     public void success(int status, Header[] headers, String response) {
-        Log.e("success", response);
         T t = HTTPUtil.gson.fromJson(response, getType());
         ok(headers, t);
     }
