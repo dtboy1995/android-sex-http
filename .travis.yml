@@ -1,9 +1,11 @@
 language: android
-sudo: true
+sudo: false
+script: 
+- ./gradlew assembleRelease
 jdk:
-  - oraclejdk8
+- openjdk8
 android:
   components:
-    - build-tools-25.0.2
-    - android-25
+  - build-tools-25.0.2
+  - android-25
 
