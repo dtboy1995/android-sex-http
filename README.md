@@ -159,17 +159,17 @@ Request
   - Returns the JSON string directly
 
 # request
-- setMethod() default GET
+- **setMethod()** default GET
   - Method.GET
   - Method.POST
   - Method.PUT
   - Method.DELETE
-- setBody(Map<String, Object> body) set reqeust body
+- **setBody(Map<String, Object> body)** set reqeust body
   - you can use Body.bulid().addKvs(key,value).done()
-- setHeaders(Map<String, String> headers)
-- addHeader(String key, String value)
-- setUrl(String url)
-- setCachePolicy(CachePolicy policy) default CacheAndRemote
-- setIsUseBaseUrl(bool isUseBaseUrl) default true
-- setIsRawResponse(bool isRawResponse) default false
+- **setHeaders(Map<String, String> headers)**
+- **addHeader(String key, String value)**
+- **setUrl(String url)**
+- **setCachePolicy(CachePolicy policy)** default CacheAndRemote
+- **setIsUseBaseUrl(bool isUseBaseUrl)** default true
+- **setIsRawResponse(bool isRawResponse)** default false
   - if you want to user setResponseRaw() then you show setIsRawResponse(true)
