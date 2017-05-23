@@ -31,5 +31,5 @@ android {
 }
 
 dependencies {
-    compile project(':library')
+    compile 'com.github.dtboy1995:android-sex-http:0.0.2'
 }

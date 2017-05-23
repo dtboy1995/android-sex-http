@@ -1,7 +1,10 @@
 package dtboy.prajna.com.test;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -28,13 +31,39 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
-        request();
+        registerReceiver(netStateReceiver, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
+//        request();
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(netStateReceiver);
+    }
+
+    BroadcastReceiver netStateReceiver = new BroadcastReceiver() {
+        long splitTime;
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if ((System.currentTimeMillis() - splitTime) > 500) {
+                if (HTTPUtil.isNetworkConnected(context)) {
+                    Toast.makeText(context, "有网了", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, "没网了....", Toast.LENGTH_SHORT).show();
+                }
+                splitTime = System.currentTimeMillis();
+            }
+
+        }
+    };
+    // 注册该接收者
+
 
     void init() {
         // init the global cache
         HTTPUtil.initHttpCache(this);
-        HTTPUtil.BASE_URL = "http://domain";
+        HTTPUtil.BASE_URL = "http://apistage.wenanle.com";
         HTTPUtil.globalResponseHandler = new IGlobalResponseHandler() {
             @Override
             public void disconnected(Context context) {
@@ -72,29 +101,29 @@ public class MainActivity extends Activity {
 
                     @Override
                     public void no(String error) {
-
+                        Toast.makeText(MainActivity.this, error, Toast.LENGTH_SHORT).show();
                     }
                 })
                 .done();
 
-        Request
-                .build()
-                .setMethod(Method.POST)
-                .addHeader("token", "foo_token")
-                .setUrl("/foo")
-                .setBody(Body.build().addKvs("username", "foo").addKvs("age", 25).done())
-                .setResponse(new Response<Banner>() {
-
-                    @Override
-                    public void ok(Header[] headers, Banner response) {
-
-                    }
-
-                    @Override
-                    public void no(String error) {
-
-                    }
-                })
-                .done();
+//        Request
+//                .build()
+//                .setMethod(Method.POST)
+//                .addHeader("token", "foo_token")
+//                .setUrl("/foo")
+//                .setBody(Body.build().addKvs("username", "foo").addKvs("age", 25).done())
+//                .setResponse(new Response<Banner>() {
+//
+//                    @Override
+//                    public void ok(Header[] headers, Banner response) {
+//
+//                    }
+//
+//                    @Override
+//                    public void no(String error) {
+//
+//                    }
+//                })
+//                .done();
     }
 }

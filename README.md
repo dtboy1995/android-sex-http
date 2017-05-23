@@ -1,8 +1,10 @@
 # ![android-sex-http](static/logo1.png)
 
 # android-sex-http [![Build Status](https://travis-ci.org/dtboy1995/android-sex-http.svg?branch=master)](https://travis-ci.org/dtboy1995/android-sex-http)
-
 A sex http library, Simple and convenient, support many cache mechanism, simplify request most
+
+## Translations
+[中文](README_CN.md)
 
 # useful if you
 - The GET request requires processing in different cases, and the request results are quickly converted to Object
@@ -123,6 +125,7 @@ Request
 // if you want to handle raw json string yourself
 Request
   .build()
+  .setIsRawResponse(true)
   .setResponseRaw(new ResponseRaw() {
             @Override
             public void ok(Header[] headers, String response) {
@@ -172,4 +175,31 @@ Request
 - **setCachePolicy(CachePolicy policy)** default CacheAndRemote
 - **setIsUseBaseUrl(bool isUseBaseUrl)** default true
 - **setIsRawResponse(bool isRawResponse)** default false
-  - if you want to user setResponseRaw() then you show setIsRawResponse(true)
+  - if you want to use setResponseRaw() then you show setIsRawResponse(true)
+
+# network state receiver
+```java
+//Since APP uses the network, more or less such a broadcast receiver is needed. After my test, the system may send two broadcasts when the network condition changes. Here is my solution
+BroadcastReceiver netStateReceiver = new BroadcastReceiver() {
+        long splitTime;
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if ((System.currentTimeMillis() - splitTime) > 500) {
+                if (HTTPUtil.isNetworkConnected(context)) {
+                  // The code used to write network connections here
+                }else{
+                  // Write code for network disconnection here
+                }
+                splitTime = System.currentTimeMillis();
+            }
+        }
+    };
+// register receiver
+registerReceiver(netStateReceiver, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
+/* Attention authority
+<uses-permission android:name="android.permission.INTERNET"/>
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+don't forget unregisterReceiver(netStateReceiver);
+*/
+```
