@@ -1,6 +1,6 @@
 # ![android-sex-http](static/logo.png)
 
-# android-sex-http
+# android-sex-http [![Build Status](https://travis-ci.org/dtboy1995/android-sex-http.svg?branch=master)](https://travis-ci.org/dtboy1995/android-sex-http)
 
 A sex http library, Simple and convenient, support many cache mechanism, simplify request most
 
