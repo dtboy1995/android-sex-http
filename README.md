@@ -1,4 +1,7 @@
-# android-sex-http
+![android-sex-http](static/logo.png)
+
+# android-sex-http [![Build Status](https://travis-ci.org/lemonce/svg-captcha.svg?branch=master)](https://travis-ci.org/steambap/svg-captcha)
+
 A sex http library, Simple and convenient, support many cache mechanism, simplify request most
 
 # useful if you
@@ -75,7 +78,7 @@ HTTPModel
     .setCachePolicy(CachePolicy.NoCache) // default CacheAndRemote
     .setContext(this)
     .setMethod(HTTPMethod.GET) // default GET
-    .setResult(new HTTPResult<T>() {
+    .setResult(new Response<T>() {
         @Override
         public void ok(Header[] headers, T response) {
             // your code
