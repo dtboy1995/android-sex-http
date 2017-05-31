@@ -1,4 +1,4 @@
-# ![android-sex-http](static/logo1.png)
+# ![android-sex-http](static/icon.png)
 
 # android-sex-http [![Build Status](https://travis-ci.org/dtboy1995/android-sex-http.svg?branch=master)](https://travis-ci.org/dtboy1995/android-sex-http)
 A sex http library, Simple and convenient, support many cache mechanism, simplify request most
@@ -74,7 +74,7 @@ HTTPUtil.globalRequestHandler = new IGlobalRequestHandler() {
 # usage
 ```java
 // get request sample
-HTTPModel
+Request
     .build()
     .setUrl("/foo")
     .setCachePolicy(CachePolicy.NoCache) // default CacheAndRemote

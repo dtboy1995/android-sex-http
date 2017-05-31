@@ -1,4 +1,4 @@
-# ![android-sex-http](static/logo1.png)
+# ![android-sex-http](static/icon.png)
 
 # android-sex-http [![Build Status](https://travis-ci.org/dtboy1995/android-sex-http.svg?branch=master)](https://travis-ci.org/dtboy1995/android-sex-http)
 一个性感的网络请求库，简单方便，支持多缓存机制，最简化请求
@@ -76,7 +76,7 @@ HTTPUtil.globalRequestHandler = new IGlobalRequestHandler() {
 # 用法
 ```java
 // GET请求示例
-HTTPModel
+Request
     .build()
     .setUrl("/foo")
     .setCachePolicy(CachePolicy.NoCache) // 默认是CacheAndRemote
