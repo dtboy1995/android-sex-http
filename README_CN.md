@@ -9,6 +9,7 @@
 # 什么情况下使用
 - GET请求需要在不同的情况下进行处理，在页面中没有网络的情况有网络的情况，数据如何获得，并且将请求结果快速转换为对象，以上情况可以方便的使用该库
 - 您的服务器基于JSON响应并遵循REST规范
+- 使用该库不会被fiddler抓包
 
 # 安装
 ```java
@@ -81,8 +82,8 @@ Request
     .setUrl("/foo")
     .setCachePolicy(CachePolicy.NoCache) // 默认是CacheAndRemote
     .setContext(this)
-    .setMethod(HTTPMethod.GET) // 默认请求是GET
-    .setResult(new Response<T>() {
+    .setMethod(Method.GET) // 默认请求是GET
+    .setResponse(new Response<T>() {
         @Override
         public void ok(Header[] headers, T response) {
             // 你的处理代码
