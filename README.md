@@ -21,7 +21,7 @@ allprojects {
 }
 //Add it in your module build.gradle
 dependencies {
-  compile 'com.github.dtboy1995:android-sex-http:0.0.2'
+  compile 'com.github.dtboy1995:android-sex-http:0.1.0'
 }
 // if compile has errors
 android {
@@ -41,14 +41,14 @@ android {
 // init cache core
 HTTPUtil.initHttpCache(context);
 // init the baseurl then Request().setUrl('/foo') -> baseurl + '/foo'
-HTTPUtil.BASE_URL = "http://domain";
+HTTPUtil.setBaseUrl("http://domain");
 // set the get request cache key unique identification request
 HTTPUtil.setCacheKey('user_id');
 // set http or https port
 HTTPUtil.setHttpPort(8080); // default 80
 HTTPUtil.setHttpsPort(8888); // default 443
 // init global response-posted include disconnected()-> handle all disconnected of requests fail()-> handle all fail of requests
-HTTPUtil.globalResponseHandler = new IGlobalResponseHandler() {
+HTTPUtil.setGlobalResponseHandler(new IGlobalResponseHandler() {
     @Override
     public void disconnected(Context context) {
         Toast.makeText(context, "no networking!", Toast.LENGTH_SHORT).show();
@@ -58,9 +58,9 @@ HTTPUtil.globalResponseHandler = new IGlobalResponseHandler() {
     public void fail(String response, Context context) {
         Toast.makeText(context, "error happened!", Toast.LENGTH_SHORT).show();
     }
-};
+});
 // init global pre-request for example addHeaders() -> set header for all request
-HTTPUtil.globalRequestHandler = new IGlobalRequestHandler() {
+HTTPUtil.setGlobalRequestHandler(new IGlobalRequestHandler() {
     @Override
     public List<Header> addHeaders() {
         List<Header> headers = new ArrayList<>();
@@ -68,7 +68,7 @@ HTTPUtil.globalRequestHandler = new IGlobalRequestHandler() {
         // add ...
         return headers;
     }
-};
+});
 ```
 
 # usage
@@ -87,7 +87,7 @@ Request
         }
 
         @Override
-        public void no(String error) {
+        public void no(Header[] headers, String error) {
 
         }
 
@@ -116,7 +116,7 @@ Request
         }
 
         @Override
-        public void no(String error) {
+        public void no(Header[] headers, String error) {
 
         }
     })
@@ -133,12 +133,63 @@ Request
             }
 
             @Override
-            public void no(String error) {
+            public void no(Header[] headers, String error) {
 
             }
         })
   .done();
-  // ...
+// file download
+// don't forget <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+FileRequest
+  .build()
+  .setUrl("http://foo.com/download/foo.png")
+  .setResponse(new FileResponse() {
+      @Override
+      public void ok() {
+
+      }
+
+      @Override
+      public void fail(Throwable throwable) {
+
+      }
+
+      @Override
+      public void progress(int percent) {
+
+      }
+  })
+  .download(new File("your_will_saved_path")); // forexample Environment.getExternalStorageDirectory().getAbsolutePath()+File.separator+"foo.png"
+// file upload
+// don't forget <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+File uploadFile = new File("existed_file"); // file to upload
+RequestParams params = new RequestParams();
+try {
+    params.put("foo_key", uploadFile, "content_type");
+} catch (FileNotFoundException e) {
+    e.printStackTrace();
+}
+FileRequest
+  .build()
+  .setUrl("http://upload.com")
+  .setParams(params)
+  .setResponse(new FileResponse() {
+      @Override
+      public void ok() {
+
+      }
+
+      @Override
+      public void fail(Throwable throwable) {
+
+      }
+
+      @Override
+      public void progress(int percent) {
+
+      }
+  })
+  .upload();
 ```
 
 # cache policy

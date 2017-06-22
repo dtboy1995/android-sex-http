@@ -14,7 +14,7 @@ public abstract class Response<T> implements HTTPResultHandler {
 
     public abstract void ok(Header[] headers, T response);
 
-    public abstract void no(String error);
+    public abstract void no(Header[] headers, String error);
 
     Type getType() {
         Type type = getClass().getGenericSuperclass();
@@ -30,17 +30,17 @@ public abstract class Response<T> implements HTTPResultHandler {
 
     @Override
     public void disconnected(Context context) {
-        if (HTTPUtil.globalResponseHandler != null) {
-            HTTPUtil.globalResponseHandler.disconnected(context);
+        if (HTTPUtil.getGlobalResponseHandler() != null) {
+            HTTPUtil.getGlobalResponseHandler().disconnected(context);
         }
     }
 
     @Override
-    public void fail(String errorMsg, Context context) {
-        if (HTTPUtil.globalResponseHandler != null) {
-            HTTPUtil.globalResponseHandler.fail(errorMsg, context);
+    public void fail(Header[] headers, String errorMsg, Context context) {
+        if (HTTPUtil.getGlobalResponseHandler() != null) {
+            HTTPUtil.getGlobalResponseHandler().fail(headers, errorMsg, context);
         }
-        no(errorMsg);
+        no(headers, errorMsg);
     }
 
     @Override

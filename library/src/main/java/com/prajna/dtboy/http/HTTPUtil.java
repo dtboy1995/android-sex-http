@@ -19,7 +19,7 @@ import java.security.MessageDigest;
 public class HTTPUtil {
 
     // the base url
-    public static String BASE_URL;
+    private static String BASE_URL;
     // the http content type
     public static final String CONTENT_TYPE = "application/json";
     // the http port
@@ -40,8 +40,28 @@ public class HTTPUtil {
         client.setURLEncodingEnabled(false);
     }
 
-    public static IGlobalResponseHandler globalResponseHandler;
-    public static IGlobalRequestHandler globalRequestHandler;
+    private static IGlobalResponseHandler globalResponseHandler;
+    private static IGlobalRequestHandler globalRequestHandler;
+
+    public static void setGlobalResponseHandler(IGlobalResponseHandler responseHandler) {
+        globalResponseHandler = responseHandler;
+    }
+
+    public static String getBaseUrl() {
+        return BASE_URL;
+    }
+
+    public static IGlobalResponseHandler getGlobalResponseHandler() {
+        return globalResponseHandler;
+    }
+
+    public static IGlobalRequestHandler getGlobalRequestHandler() {
+        return globalRequestHandler;
+    }
+
+    public static void setGlobalRequestHandler(IGlobalRequestHandler requestHandler) {
+        globalRequestHandler = requestHandler;
+    }
 
     private static String CACHE_KEY;
 
@@ -66,6 +86,10 @@ public class HTTPUtil {
         HTTPS_PORT = httpsPort;
         client = new AsyncHttpClient(true, HTTP_PORT, HTTPS_PORT);
         client.setURLEncodingEnabled(false);
+    }
+
+    public static void setBaseUrl(String url) {
+        BASE_URL = url;
     }
 
     public static void initHttpCache(Context context) {

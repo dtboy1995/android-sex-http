@@ -1,8 +1,12 @@
 package com.prajna.dtboy.http;
 
 /**
- * Created by Administrator on 2017/6/22.
  */
 
-public class FileResponse {
+public interface FileResponse {
+    void ok();
+
+    void fail(Throwable throwable);
+
+    void progress(int percent);
 }
