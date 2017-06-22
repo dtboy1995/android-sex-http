@@ -163,8 +163,8 @@ FileRequest
       }
   })
   .download(new File("你要把文件下载到哪")); // 比如 Environment.getExternalStorageDirectory().getAbsolutePath()+File.separator+"图片.png"
-  // 文件上传
-  // 别忘了权限 <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+// 文件上传
+// 别忘了权限 <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 File uploadFile = new File("existed_file"); // file to upload
 RequestParams params = new RequestParams();
 try {
