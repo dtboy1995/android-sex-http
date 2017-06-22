@@ -1,6 +1,6 @@
 # ![android-sex-http](static/icon.png)
 
-# android-sex-http [![Build Status](https://travis-ci.org/dtboy1995/android-sex-http.svg?branch=master)](https://travis-ci.org/dtboy1995/android-sex-http)
+# android-sex-http [![Build Status](https://travis-ci.org/dtboy1995/android-sex-http.svg?branch=master)](https://travis-ci.org/dtboy1995/android-sex-http)[![](https://jitpack.io/v/dtboy1995/android-sex-http.svg)](https://jitpack.io/#dtboy1995/android-sex-http)
 A sex http library, Simple and convenient, support many cache mechanism, simplify request most
 
 ## Translations
@@ -21,7 +21,7 @@ allprojects {
 }
 //Add it in your module build.gradle
 dependencies {
-  compile 'com.github.dtboy1995:android-sex-http:0.1.0'
+  compile 'com.github.dtboy1995:android-sex-http:0.1.1'
 }
 // if compile has errors
 android {

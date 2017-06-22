@@ -1,6 +1,6 @@
 # ![android-sex-http](static/icon.png)
 
-# android-sex-http [![Build Status](https://travis-ci.org/dtboy1995/android-sex-http.svg?branch=master)](https://travis-ci.org/dtboy1995/android-sex-http)
+# android-sex-http [![Build Status](https://travis-ci.org/dtboy1995/android-sex-http.svg?branch=master)](https://travis-ci.org/dtboy1995/android-sex-http)[![](https://jitpack.io/v/dtboy1995/android-sex-http.svg)](https://jitpack.io/#dtboy1995/android-sex-http)
 一个性感的网络请求库，简单方便，支持多缓存机制，最简化请求
 
 ## Translations
@@ -24,7 +24,7 @@ allprojects {
 // 在你的module级别的build.gradle 中添加
 dependencies {
   // 你的其他依赖...
-  compile 'com.github.dtboy1995:android-sex-http:0.1.0'
+  compile 'com.github.dtboy1995:android-sex-http:0.1.1'
 }
 // 如果gradle的sync出现错误 在module的build.gradle 中添加这些
 android {
