@@ -58,7 +58,7 @@ HTTPUtil.setGlobalResponseHandler(new IGlobalResponseHandler() {
     }
 
     @Override
-    public void fail(String response, Context context) {
+    public void fail(Header[] headers, String response, Context context) {
         Toast.makeText(context, "error happened!", Toast.LENGTH_SHORT).show();
     }
 });
