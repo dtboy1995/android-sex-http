@@ -45,7 +45,12 @@ public abstract class Response<T> implements HTTPResultHandler {
 
     @Override
     public void success(int status, Header[] headers, String response) {
-        T t = HTTPUtil.gson.fromJson(response, getType());
+        T t = null;
+        try {
+            t = HTTPUtil.gson.fromJson(response, getType());
+        } catch (Exception e) {
+            t = null;
+        }
         ok(headers, t);
     }
 }
