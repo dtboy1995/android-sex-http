@@ -24,7 +24,12 @@ public abstract class Response<T> implements HTTPResultHandler {
 
     @Override
     public void cache(String response) {
-        T t = HTTPUtil.gson.fromJson(response, getType());
+        T t = null;
+        try {
+            t = HTTPUtil.gson.fromJson(response, getType());
+        } catch (Exception e) {
+            t = null;
+        }
         ok(null, t);
     }
 
