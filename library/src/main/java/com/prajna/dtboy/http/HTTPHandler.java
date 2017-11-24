@@ -71,9 +71,9 @@ public class HTTPHandler extends TextHttpResponseHandler {
     @Override
     public void onFailure(int i, Header[] headers, String s, Throwable throwable) {
         if (model.getIsRawResponse()) {
-            model.getResponseRaw().fail(s, model.context);
+            model.getResponseRaw().fail(headers, s, model.context);
         } else {
-            model.getResult().fail(s, model.context);
+            model.getResult().fail(headers, s, model.context);
         }
 
     }

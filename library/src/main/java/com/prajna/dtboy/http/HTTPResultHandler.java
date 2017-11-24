@@ -11,7 +11,7 @@ public interface HTTPResultHandler {
 
     void cache(String response);
 
-    void fail(String errorMsg, Context context);
+    void fail(Header[] headers, String errorMsg, Context context);
 
     void disconnected(Context context);
 }

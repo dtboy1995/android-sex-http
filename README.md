@@ -1,4 +1,4 @@
-# ![android-sex-http](static/logo1.png)
+# ![android-sex-http](static/icon.png)
 
 # android-sex-http [![Build Status](https://travis-ci.org/dtboy1995/android-sex-http.svg?branch=master)](https://travis-ci.org/dtboy1995/android-sex-http)
 A sex http library, Simple and convenient, support many cache mechanism, simplify request most
@@ -9,6 +9,7 @@ A sex http library, Simple and convenient, support many cache mechanism, simplif
 # useful if you
 - The GET request requires processing in different cases, and the request results are quickly converted to Object
 - Your server is based on JSON and follows the REST specification
+- The use of the library will not be Fiddler capture
 
 # install
 ```java
@@ -21,7 +22,7 @@ allprojects {
 }
 //Add it in your module build.gradle
 dependencies {
-  compile 'com.github.dtboy1995:android-sex-http:0.0.2'
+  compile 'com.github.dtboy1995:android-sex-http:0.1.2'
 }
 // if compile has errors
 android {
@@ -41,26 +42,26 @@ android {
 // init cache core
 HTTPUtil.initHttpCache(context);
 // init the baseurl then Request().setUrl('/foo') -> baseurl + '/foo'
-HTTPUtil.BASE_URL = "http://domain";
+HTTPUtil.setBaseUrl("http://domain");
 // set the get request cache key unique identification request
 HTTPUtil.setCacheKey('user_id');
 // set http or https port
 HTTPUtil.setHttpPort(8080); // default 80
 HTTPUtil.setHttpsPort(8888); // default 443
 // init global response-posted include disconnected()-> handle all disconnected of requests fail()-> handle all fail of requests
-HTTPUtil.globalResponseHandler = new IGlobalResponseHandler() {
+HTTPUtil.setGlobalResponseHandler(new IGlobalResponseHandler() {
     @Override
     public void disconnected(Context context) {
         Toast.makeText(context, "no networking!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void fail(String response, Context context) {
+    public void fail(Header[] headers, String response, Context context) {
         Toast.makeText(context, "error happened!", Toast.LENGTH_SHORT).show();
     }
-};
+});
 // init global pre-request for example addHeaders() -> set header for all request
-HTTPUtil.globalRequestHandler = new IGlobalRequestHandler() {
+HTTPUtil.setGlobalRequestHandler(new IGlobalRequestHandler() {
     @Override
     public List<Header> addHeaders() {
         List<Header> headers = new ArrayList<>();
@@ -68,26 +69,26 @@ HTTPUtil.globalRequestHandler = new IGlobalRequestHandler() {
         // add ...
         return headers;
     }
-};
+});
 ```
 
 # usage
 ```java
 // get request sample
-HTTPModel
+Request
     .build()
     .setUrl("/foo")
     .setCachePolicy(CachePolicy.NoCache) // default CacheAndRemote
     .setContext(this)
-    .setMethod(HTTPMethod.GET) // default GET
-    .setResult(new Response<T>() {
+    .setMethod(Method.GET) // default GET
+    .setResponse(new Response<T>() {
         @Override
         public void ok(Header[] headers, T response) {
             // your code
         }
 
         @Override
-        public void no(String error) {
+        public void no(Header[] headers, String error) {
 
         }
 
@@ -116,7 +117,7 @@ Request
         }
 
         @Override
-        public void no(String error) {
+        public void no(Header[] headers, String error) {
 
         }
     })
@@ -133,12 +134,63 @@ Request
             }
 
             @Override
-            public void no(String error) {
+            public void no(Header[] headers, String error) {
 
             }
         })
   .done();
-  // ...
+// file download
+// don't forget <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+FileRequest
+  .build()
+  .setUrl("http://foo.com/download/foo.png")
+  .setResponse(new FileResponse() {
+      @Override
+      public void ok() {
+
+      }
+
+      @Override
+      public void fail(Throwable throwable) {
+
+      }
+
+      @Override
+      public void progress(int percent) {
+
+      }
+  })
+  .download(new File("your_will_saved_path")); // forexample Environment.getExternalStorageDirectory().getAbsolutePath()+File.separator+"foo.png"
+// file upload
+// don't forget <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+File uploadFile = new File("existed_file"); // file to upload
+RequestParams params = new RequestParams();
+try {
+    params.put("foo_key", uploadFile, "content_type");
+} catch (FileNotFoundException e) {
+    e.printStackTrace();
+}
+FileRequest
+  .build()
+  .setUrl("http://upload.com")
+  .setParams(params)
+  .setResponse(new FileResponse() {
+      @Override
+      public void ok() {
+
+      }
+
+      @Override
+      public void fail(Throwable throwable) {
+
+      }
+
+      @Override
+      public void progress(int percent) {
+
+      }
+  })
+  .upload();
 ```
 
 # cache policy

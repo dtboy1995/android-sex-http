@@ -59,8 +59,8 @@ public class Request {
 
     public static Request build() {
         Request model = new Request();
-        if (HTTPUtil.globalRequestHandler != null) {
-            model.headers.addAll(HTTPUtil.globalRequestHandler.addHeaders());
+        if (HTTPUtil.getGlobalRequestHandler() != null) {
+            model.headers.addAll(HTTPUtil.getGlobalRequestHandler().addHeaders());
         }
         model.handler = new HTTPHandler(model);
         return model;
@@ -81,10 +81,10 @@ public class Request {
 
     public Request setUrl(String url) {
         if (getIsUseBaseUrl()) {
-            if (HTTPUtil.BASE_URL == null) {
+            if (HTTPUtil.getBaseUrl() == null) {
                 this.url = url;
             } else {
-                this.url = String.format("%s%s", HTTPUtil.BASE_URL, url);
+                this.url = String.format("%s%s", HTTPUtil.getBaseUrl(), url);
             }
         } else {
             this.url = url;

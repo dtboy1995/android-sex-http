@@ -1,4 +1,4 @@
-# ![android-sex-http](static/logo1.png)
+# ![android-sex-http](static/icon.png)
 
 # android-sex-http [![Build Status](https://travis-ci.org/dtboy1995/android-sex-http.svg?branch=master)](https://travis-ci.org/dtboy1995/android-sex-http)
 一个性感的网络请求库，简单方便，支持多缓存机制，最简化请求
@@ -9,6 +9,7 @@
 # 什么情况下使用
 - GET请求需要在不同的情况下进行处理，在页面中没有网络的情况有网络的情况，数据如何获得，并且将请求结果快速转换为对象，以上情况可以方便的使用该库
 - 您的服务器基于JSON响应并遵循REST规范
+- 使用该库不会被fiddler抓包
 
 # 安装
 ```java
@@ -23,7 +24,7 @@ allprojects {
 // 在你的module级别的build.gradle 中添加
 dependencies {
   // 你的其他依赖...
-  compile 'com.github.dtboy1995:android-sex-http:0.0.2'
+  compile 'com.github.dtboy1995:android-sex-http:0.1.2'
 }
 // 如果gradle的sync出现错误 在module的build.gradle 中添加这些
 android {
@@ -43,26 +44,26 @@ android {
 // 缓存使用了二级缓存需要用到context对象所以需要初始化一下缓存
 HTTPUtil.initHttpCache(context);
 // 比如你要请求 http://domain/foo 那么配置了baseurl 之后的所有请求 setUrl 直接写/foo
-HTTPUtil.BASE_URL = "http://domain";
+HTTPUtil.setBaseUrl("http://domain");
 // GET 请求缓存的key, 如果是单用户系统那么不用配置，如果是多用户系统很多请求可能重复，所以需要一个key来区分
 HTTPUtil.setCacheKey('user_id');
 // 设置http端口和https端口
 HTTPUtil.setHttpPort(8080); // 默认 80
 HTTPUtil.setHttpsPort(8888); // 默认 443
 // 全局响应处理器 就是在每个请求处理完成时 如果配置了这个接口，那么每个请求都会执行这个接口的响应函数
-HTTPUtil.globalResponseHandler = new IGlobalResponseHandler() {
+HTTPUtil.setGlobalResponseHandler(new IGlobalResponseHandler() {
     @Override
     public void disconnected(Context context) {
         Toast.makeText(context, "no networking!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void fail(String response, Context context) {
+    public void fail(Header[] headers, String response, Context context) {
         Toast.makeText(context, "error happened!", Toast.LENGTH_SHORT).show();
     }
-};
+});
 // 全局请求处理器 在每个请求发送前 如果配置了这个接口 那么每个请求发送前都会执行这个接口的函数
-HTTPUtil.globalRequestHandler = new IGlobalRequestHandler() {
+HTTPUtil.setGlobalRequestHandler(new IGlobalRequestHandler() {
     @Override
     public List<Header> addHeaders() {
         List<Header> headers = new ArrayList<>();
@@ -70,26 +71,26 @@ HTTPUtil.globalRequestHandler = new IGlobalRequestHandler() {
         // add ...
         return headers;
     }
-};
+});
 ```
 
 # 用法
 ```java
 // GET请求示例
-HTTPModel
+Request
     .build()
     .setUrl("/foo")
     .setCachePolicy(CachePolicy.NoCache) // 默认是CacheAndRemote
     .setContext(this)
-    .setMethod(HTTPMethod.GET) // 默认请求是GET
-    .setResult(new Response<T>() {
+    .setMethod(Method.GET) // 默认请求是GET
+    .setResponse(new Response<T>() {
         @Override
         public void ok(Header[] headers, T response) {
             // 你的处理代码
         }
 
         @Override
-        public void no(String error) {
+        public void no(Header[] headers, String error) {
 
         }
 
@@ -118,7 +119,7 @@ Request
         }
 
         @Override
-        public void no(String error) {
+        public void no(Header[] headers, String error) {
 
         }
     })
@@ -135,12 +136,63 @@ Request
             }
 
             @Override
-            public void no(String error) {
+            public void no(Header[] headers, String error) {
 
             }
         })
   .done();
-  // ...
+// 文件下载
+// 别忘了添加权限 <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+FileRequest
+  .build()
+  .setUrl("http://foo.com/download/foo.png")
+  .setResponse(new FileResponse() {
+      @Override
+      public void ok() {
+          // 成功
+      }
+
+      @Override
+      public void fail(Throwable throwable) {
+         // 失败
+      }
+
+      @Override
+      public void progress(int percent) {
+          // 进度
+      }
+  })
+  .download(new File("你要把文件下载到哪")); // 比如 Environment.getExternalStorageDirectory().getAbsolutePath()+File.separator+"图片.png"
+// 文件上传
+// 别忘了权限 <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+File uploadFile = new File("existed_file"); // file to upload
+RequestParams params = new RequestParams();
+try {
+    params.put("foo_key", uploadFile, "content_type");
+} catch (FileNotFoundException e) {
+    e.printStackTrace();
+}
+FileRequest
+  .build()
+  .setUrl("http://upload.com")
+  .setParams(params)
+  .setResponse(new FileResponse() {
+      @Override
+      public void ok() {
+
+      }
+
+      @Override
+      public void fail(Throwable throwable) {
+
+      }
+
+      @Override
+      public void progress(int percent) {
+
+      }
+  })
+  .upload();
 ```
 
 # GET缓存策略
