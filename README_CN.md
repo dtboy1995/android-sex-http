@@ -14,7 +14,7 @@ repositories {
 - 在module的build.gradle中添加
 
 ```gradle
-compile 'com.github.dtboy1995:android-sex-http:0.1.2'
+compile 'com.github.dtboy1995:android-sex-http:0.10.0'
 ```
 
 # 用法

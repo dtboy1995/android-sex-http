@@ -14,7 +14,7 @@ repositories {
 - add to your module gradle file
 
 ```gradle
-compile 'com.github.dtboy1995:android-sex-http:0.1.2'
+compile 'com.github.dtboy1995:android-sex-http:0.10.0'
 ```
 
 # usage
