@@ -1,81 +1,58 @@
 package com.prajna.dtboy.http;
 
-import android.util.Log;
-
 import com.loopj.android.http.TextHttpResponseHandler;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import cz.msebera.android.httpclient.Header;
+
+import static com.prajna.dtboy.http.Req._cache;
+import static com.prajna.dtboy.http.Req.client;
+import static com.prajna.dtboy.http.Req.ihttpHook;
 
 /**
  */
 public class HTTPHandler extends TextHttpResponseHandler {
 
-    Request model;
+    Req req;
 
-    public HTTPHandler(Request model) {
-        this.model = model;
+    public HTTPHandler(Req req) {
+        this.req = req;
     }
 
     @Override
-    public void onSuccess(int status, Header[] headers, String response) {
-        Log.e(getClass().getName(), response);
-        if (model.getMethod() == Method.GET) {
-            switch (model.getCachePolicy()) {
+    public void onSuccess(int status, Header[] headers, final String response) {
+        Utils.Logger.debug(response);
+        if (ihttpHook != null) {
+            ihttpHook.post(req._context);
+        }
+        if (req._method == Method.GET) {
+            switch (req._cachePolicy) {
                 case NoCache:
-                    if (model.getIsRawResponse()) {
-                        model.getResponseRaw().success(status, headers, response);
-                    } else {
-                        model.getResult().success(status, headers, response);
-                    }
-                    break;
-                case IgnoreCache:
-                    if (model.getIsRawResponse()) {
-                        model.getResponseRaw().success(status, headers, response);
-                    } else {
-                        model.getResult().success(status, headers, response);
-                    }
-                    HTTPUtil.cache.put(model.getCacheKey(), response);
-                    break;
-                case CacheOnly:
-                    if (model.getIsRawResponse()) {
-                        model.getResponseRaw().success(status, headers, response);
-                    } else {
-                        model.getResult().success(status, headers, response);
-                    }
-                    HTTPUtil.cache.put(model.getCacheKey(), response);
+                    req._res.success(status, headers, response);
                     break;
                 case CacheAndRemote:
-                    if (model.getIsRawResponse()) {
-                        model.getResponseRaw().success(status, headers, response);
-                    } else {
-                        model.getResult().success(status, headers, response);
-                    }
-                    HTTPUtil.cache.put(model.getCacheKey(), response);
-                    break;
+                case IgnoreCache:
+                case CacheOnly:
                 case CacheOrRemote:
-                    if (model.getIsRawResponse()) {
-                        model.getResponseRaw().success(status, headers, response);
-                    } else {
-                        model.getResult().success(status, headers, response);
-                    }
+                    req._res.success(status, headers, response);
+                    // write cache
+                    client.getThreadPool().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            _cache.put(req.key(), response);
+                        }
+                    });
+                    break;
             }
         } else {
-            if (model.getIsRawResponse()) {
-                model.getResponseRaw().success(status, headers, response);
-            } else {
-                model.getResult().success(status, headers, response);
-            }
+            req._res.success(status, headers, response);
         }
     }
 
     @Override
     public void onFailure(int i, Header[] headers, String s, Throwable throwable) {
-        if (model.getIsRawResponse()) {
-            model.getResponseRaw().fail(headers, s, model.context);
-        } else {
-            model.getResult().fail(headers, s, model.context);
-        }
-
+        req._res.fail(headers, s, req._context);
     }
-
 }

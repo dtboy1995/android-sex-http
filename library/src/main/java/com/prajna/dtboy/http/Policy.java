@@ -2,7 +2,7 @@ package com.prajna.dtboy.http;
 
 /**
  */
-public enum CachePolicy {
+public enum Policy {
     NoCache,
     CacheOnly,
     CacheAndRemote,
