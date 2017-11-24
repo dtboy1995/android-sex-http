@@ -21,7 +21,7 @@ compile 'com.github.dtboy1995:android-sex-http:0.1.2'
 ```java
 // init once
 Req.init(this);
-// just go
+// just go!
 Req
   .build(MainActivity.this)
   .url("/foos")
@@ -69,7 +69,7 @@ Req.hook(new IHTTPHook(){ // http lifecycle hooks
 
   @Override
   public void fail(Header[] headers, String response, Context context) {
-      // not 200 response call this hook
+      // abnormal response call this hook
   }
 })
 ```
