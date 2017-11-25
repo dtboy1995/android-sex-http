@@ -38,7 +38,7 @@ public class MainActivity extends Activity {
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what){
+            switch (msg.what) {
                 case 0:
                     req.cancel();
                     break;
@@ -98,6 +98,7 @@ public class MainActivity extends Activity {
          *  TEST CASES
          */
 
+        //  prefix();
         //  simpleGET();
         //  stringGET();
         //  listGET();
@@ -105,6 +106,25 @@ public class MainActivity extends Activity {
         //  simplePUT();
         //  simpleDELETE();
         //  cancel();
+    }
+
+    void prefix() {
+        Req.build(this)
+                .url("/doctors/58acec93a750150831fa830b/basic-profile")
+                .prefix(false)
+                .method(Method.GET)
+                .res(new Res<Foo>() {
+                    @Override
+                    public void ok(Header[] headers, Foo response) {
+                        Utils.Logger.debug(response.toString());
+                    }
+
+                    @Override
+                    public void no(Header[] headers, String error) {
+
+                    }
+                }).go();
+
     }
 
     void cancel() {

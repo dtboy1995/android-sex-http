@@ -167,6 +167,8 @@ public class Req {
     public boolean _base = true;
     // 真正的请求引用
     public RequestHandle request;
+    // 该请求是否使用缓存前缀
+    public boolean _prefix = true;
 
     /**
      * 调用此方法开启请求链
@@ -433,12 +435,26 @@ public class Req {
     }
 
     /**
+     * 缓存时是否使用缓存前缀
+     *
+     * @param prefix
+     * @return
+     */
+    public Req prefix(boolean prefix) {
+        this._prefix = prefix;
+        return this;
+    }
+
+    /**
      * 得到缓存需要的key
      *
      * @return
      */
     public String key() {
-        return md5(CACHE_KEY_PREFIX + _url);
+        if (this._prefix)
+            return md5(CACHE_KEY_PREFIX + _url);
+        else
+            return md5(_url);
     }
 
     Header[] _headers_() {
