@@ -2,9 +2,6 @@ package com.prajna.dtboy.http;
 
 import com.loopj.android.http.TextHttpResponseHandler;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import cz.msebera.android.httpclient.Header;
 
 import static com.prajna.dtboy.http.Req._cache;
@@ -12,6 +9,7 @@ import static com.prajna.dtboy.http.Req.client;
 import static com.prajna.dtboy.http.Req.ihttpHook;
 
 /**
+ * 请求处理器
  */
 public class HTTPHandler extends TextHttpResponseHandler {
 

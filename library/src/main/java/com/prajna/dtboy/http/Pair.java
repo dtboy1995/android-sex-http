@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * 构建map的工具类
  */
 
 public class Pair {

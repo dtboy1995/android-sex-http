@@ -1,6 +1,7 @@
 package com.prajna.dtboy;
 
 import android.content.Context;
+import android.os.Looper;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
@@ -20,6 +21,7 @@ import cz.msebera.android.httpclient.Header;
  */
 @RunWith(AndroidJUnit4.class)
 public class ExampleInstrumentedTest {
+
     @Test
     public void useAppContext() throws Exception {
     }
@@ -27,7 +29,5 @@ public class ExampleInstrumentedTest {
 
     @Test
     public void getTest() {
-
-
     }
 }

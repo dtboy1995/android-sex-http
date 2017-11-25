@@ -14,17 +14,18 @@ repositories {
 - add to your module gradle file
 
 ```gradle
-compile 'com.github.dtboy1995:android-sex-http:0.10.0'
+compile 'com.github.dtboy1995:android-sex-http:0.10.2'
 ```
 
 # usage
 ```java
 // init once
-Req.init(this);
+Req.init(this); //  Application context
+Req.base("https://api.domain.com");
 // just go!
 Req
-  .build(MainActivity.this)
-  .url("/foos")
+  .build(this) // Activity this
+  .url("/foo")
   .res(new Res<Foo>(){
     @Override
     public void ok(Header[] headers, Foo response) {

@@ -14,17 +14,18 @@ repositories {
 - 在module的build.gradle中添加
 
 ```gradle
-compile 'com.github.dtboy1995:android-sex-http:0.10.0'
+compile 'com.github.dtboy1995:android-sex-http:0.10.2'
 ```
 
 # 用法
 ```java
 // 在app启动的时候初始化一次
-Req.init(this);
+Req.init(this); // Application context
+Req.base("https://api.domain.com");
 // 走起！
 Req
-  .build(MainActivity.this)
-  .url("/foos")
+  .build(this) // Activity this
+  .url("/foo")
   .res(new Res<Foo>(){
     @Override
     public void ok(Header[] headers, Foo response) {

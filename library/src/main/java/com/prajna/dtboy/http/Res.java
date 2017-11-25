@@ -11,6 +11,7 @@ import static com.prajna.dtboy.http.Req.gson;
 import static com.prajna.dtboy.http.Req.ihttpHook;
 
 /**
+ * 响应
  */
 
 public abstract class Res<T> implements IHTTPResult {

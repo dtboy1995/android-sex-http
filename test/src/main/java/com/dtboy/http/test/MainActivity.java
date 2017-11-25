@@ -3,6 +3,8 @@ package com.dtboy.http.test;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 
 import com.prajna.dtboy.http.IHTTPHook;
 import com.prajna.dtboy.http.Method;
@@ -28,6 +30,30 @@ public class MainActivity extends Activity {
             return this.id;
         }
     }
+
+    class U {
+        public String name;
+    }
+
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case 0:
+                    req.cancel();
+                    break;
+                case 1:
+                    Req.cancel(MainActivity.this);
+                    break;
+                case 2:
+                    Req.cancelAll();
+                    break;
+            }
+            Utils.Logger.debug("handle response # request cancel.");
+        }
+    };
+
+    Req req;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,18 +93,53 @@ public class MainActivity extends Activity {
                 Utils.Logger.debug(response + "");
             }
         });
-        //  test cases
 
-        simpleGET();
+        /**
+         *  TEST CASES
+         */
+
+        //  simpleGET();
         //  stringGET();
         //  listGET();
         //  simplePOST();
         //  simplePUT();
         //  simpleDELETE();
+        //  cancel();
     }
 
-    class U {
-        public String name;
+    void cancel() {
+        req = Req.build();
+        req
+                .context(this)
+                .url("/doctors/58acec93a750150831fa830b/basic-profile")
+                .policy(Policy.NoCache)
+                .method(Method.GET)
+                .res(new Res<Foo>() {
+                    @Override
+                    public void ok(Header[] headers, Foo response) {
+                        Utils.Logger.debug(response.toString());
+                    }
+
+                    @Override
+                    public void no(Header[] headers, String error) {
+
+                    }
+                }).go();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(200);
+                    // Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                // handler.sendEmptyMessage(0);
+                // handler.sendEmptyMessage(1);
+                handler.sendEmptyMessage(2);
+            }
+        }).start();
     }
 
     void simplePUT() {
