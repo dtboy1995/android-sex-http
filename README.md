@@ -21,14 +21,13 @@ implementation 'com.github.dtboy1995:android-sex-http:0.10.2'
 ```java
 // init once
 Req.init(this);
-Req.base("https://api.domain.com");
 // send request
 Req
   .build(this)
-  .url("/foo")
-  .res(new Res<Foo>(){
+  .url("https://your_domain/some_url")
+  .res(new Res<Dummy>(){
     @Override
-    public void ok(Header[] headers, Foo response) {
+    public void ok(Header[] headers, Dummy response) {
         
     }
 
@@ -41,36 +40,44 @@ Req
 
 # config
 ```java
-Req.init(this); // default http 80 https 443
-Req.init(this, 3000); // set http port
-Req.init(this, 3000, 5000) // set https port
-Req.base("https://your_domain.com"); // set base url
-Req.prefix("user_id"); // distinguish different users request
-Req.debug(true); // if true log response default false
-Req.hook(new IHTTPHook(){ // http lifecycle hooks
+// default http 80 https 443
+Req.init(this); 
+// set http port
+Req.init(this, 3000); 
+// set https port
+Req.init(this, 3000, 5000) 
+// set base url example for https://api.somedomain.com
+Req.base("https://your_domain");
+// distinguish different users request
+Req.prefix("user_id"); 
+// if true log response default false
+Req.debug(true); 
+// http lifecycle hooks
+Req.hook(new IHTTPHook(){
+  // no network call this hook
   @Override
   public void disconnected(Context context) {
-      // no network call this hook
+      
   }
-
+  // you can set common headers
   @Override
   public List<Header> headers() {
-      // you can set common headers
+      
   }
-
+  // before request call this hook, you can display a dialog
   @Override
   public void pre(Context context) {
-      // before request call this hook, you can display a dialog
+      
   }
-
+  // request done call this hook, you can dismiss a dialog
   @Override
   public void post(Context context) {
-      // request done call this hook, you can dismiss a dialog
+      
   }
-
+  // abnormal response call this hook
   @Override
   public void fail(Header[] headers, String response, Context context) {
-      // abnormal response call this hook
+      
   }
 })
 ```
