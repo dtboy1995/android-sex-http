@@ -1,7 +1,7 @@
 # ![android-sex-http](static/icon.png)
 
 # android-sex-http [![Build Status](https://travis-ci.org/dtboy1995/android-sex-http.svg?branch=master)](https://travis-ci.org/dtboy1995/android-sex-http)
-android async http simple wrapper with cache policy
+:airplane: android async http simple wrapper with cache policy
 
 # install
 - add to your project gradle file
@@ -14,22 +14,22 @@ repositories {
 - add to your module gradle file
 
 ```gradle
-compile 'com.github.dtboy1995:android-sex-http:0.10.2'
+implementation 'com.github.dtboy1995:android-sex-http:0.10.2'
 ```
 
 # usage
 ```java
 // init once
-Req.init(this); //  Application context
+Req.init(this);
 Req.base("https://api.domain.com");
-// just go!
+// send request
 Req
-  .build(this) // Activity this
+  .build(this)
   .url("/foo")
   .res(new Res<Foo>(){
     @Override
     public void ok(Header[] headers, Foo response) {
-        // textView.setText(response.name)
+        
     }
 
     @Override
@@ -44,7 +44,7 @@ Req
 Req.init(this); // default http 80 https 443
 Req.init(this, 3000); // set http port
 Req.init(this, 3000, 5000) // set https port
-Req.base("https://api.foo.com"); // set base url
+Req.base("https://your_domain.com"); // set base url
 Req.prefix("user_id"); // distinguish different users request
 Req.debug(true); // if true log response default false
 Req.hook(new IHTTPHook(){ // http lifecycle hooks
@@ -74,6 +74,3 @@ Req.hook(new IHTTPHook(){ // http lifecycle hooks
   }
 })
 ```
-
-# translations
-[中文](README_CN.md)
