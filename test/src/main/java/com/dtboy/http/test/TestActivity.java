@@ -16,7 +16,6 @@ import org.ithot.android.transmit.http.Res;
 import org.ithot.android.transmit.http.Utils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
@@ -42,7 +41,7 @@ public class TestActivity extends Activity {
     };
 
     Req req;
-    Req.JSON json = new GsonJSON();
+    Req.JSON json = new JSON();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

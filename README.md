@@ -9,9 +9,9 @@ implementation 'org.ithot.android.transmit:http:0.2.10'
 ```
 
 # usage
-### json (to decouple from the serialization library)
+- ### json (to decouple from the serialization library)
 ```java
-public class GJSON extends Req.JSON {
+public class JSON extends Req.JSON {
     // you can use any serialization library
     private Gson gson = new Gson();
 
@@ -26,14 +26,14 @@ public class GJSON extends Req.JSON {
     }
 }
 ```
-### sample
+- ### sample
 ```java
-GJSON json = new GJSON();
+JSON json = new JSON();
 // init once
-Req.init(this, json);
+Req.init(context, json);
 // send request
 Req
-  .build(this)
+  .build(context)
   .url("https://your_domain/some_url")
   .res(new Res<Dummy>(){
     @Override
@@ -51,11 +51,11 @@ Req
 # config
 ```java
 // default http 80 https 443
-Req.init(this, json);
+Req.init(context, json);
 // set http port
-Req.init(this, 3000, json);
+Req.init(context, 3000, json);
 // set https port
-Req.init(this, 3000, 5000, json)
+Req.init(context, 3000, 5000, json)
 // set base url example for https://api.somedomain.com
 Req.base("https://your_domain");
 // distinguish different users request

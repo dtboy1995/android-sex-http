@@ -7,7 +7,7 @@ import org.ithot.android.transmit.http.Req;
 
 import java.lang.reflect.Type;
 
-public class GsonJSON extends Req.JSON {
+public class JSON extends Req.JSON {
 
     private Gson gson = new Gson();
 
