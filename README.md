@@ -9,6 +9,11 @@ implementation 'org.ithot.android.transmit:http:0.2.10'
 ```
 
 # usage
+- ### permissions
+```xml
+  <uses-permission android:name="android.permission.INTERNET" />
+  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+```
 - ### json (to decouple from the serialization library)
 ```java
 public class JSON extends Req.JSON {
