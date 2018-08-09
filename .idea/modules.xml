@@ -3,8 +3,11 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/android-sex-http.iml" filepath="$PROJECT_DIR$/android-sex-http.iml" />
-      <module fileurl="file://$PROJECT_DIR$/library/library.iml" filepath="$PROJECT_DIR$/library/library.iml" />
+      <module fileurl="file://E:\scripts\android-sex-http\android-sex-http.iml" filepath="E:\scripts\android-sex-http\android-sex-http.iml" />
+      <module fileurl="file://$PROJECT_DIR$/http/http.iml" filepath="$PROJECT_DIR$/http/http.iml" />
+      <module fileurl="file://E:\scripts\android-sex-http\library\library.iml" filepath="E:\scripts\android-sex-http\library\library.iml" />
       <module fileurl="file://$PROJECT_DIR$/test/test.iml" filepath="$PROJECT_DIR$/test/test.iml" />
+      <module fileurl="file://E:\scripts\android-sex-http\test\test.iml" filepath="E:\scripts\android-sex-http\test\test.iml" />
     </modules>
   </component>
 </project>
