@@ -5,7 +5,7 @@
 
 # install
 ```gradle
-implementation 'org.ithot.android.transmit:http:0.3.0'
+implementation 'org.ithot.android.transmit:http:0.3.1'
 ```
 
 # usage
@@ -16,7 +16,7 @@ implementation 'org.ithot.android.transmit:http:0.3.0'
 ```
 - ### jsonserializer
 ```gradle
-implementation 'org.ithot.android.serializer:gson:1.0.0'
+implementation 'org.ithot.android.serializer:gson:1.0.1'
 ```
 - ### sample
 ```java

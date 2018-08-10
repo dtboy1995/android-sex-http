@@ -8,7 +8,7 @@ publish {
     userOrg = "dtboy"
     groupId = "org.ithot.android.serializer"
     artifactId = "gson"
-    publishVersion = "1.0.0"
+    publishVersion = "1.0.1"
     desc = "android async http simple wrapper with cache policy json serializer"
     website = "https://github.com/dtboy1995/android-sex-http"
 }
@@ -22,7 +22,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 27
         versionCode 1
-        versionName "1.0.0"
+        versionName "1.0.1"
     }
 
     buildTypes {
@@ -39,6 +39,6 @@ android {
 }
 
 dependencies {
-    compile project(':serializerinterface')
+    compile 'org.ithot.android.serializer:inter:1.0.0'
     compile 'com.google.code.gson:gson:2.8.1'
 }

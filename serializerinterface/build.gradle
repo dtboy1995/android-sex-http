@@ -1,4 +1,17 @@
 apply plugin: 'com.android.library'
+// apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.novoda.bintray-release'
+
+group = 'org.ithot'
+
+publish {
+    userOrg = "dtboy"
+    groupId = "org.ithot.android.serializer"
+    artifactId = "inter"
+    publishVersion = "1.0.0"
+    desc = "android async http simple wrapper with cache policy serializer interface"
+    website = "https://github.com/dtboy1995/android-sex-http"
+}
 
 android {
     compileSdkVersion 27
@@ -9,7 +22,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 27
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
     }
 
     buildTypes {

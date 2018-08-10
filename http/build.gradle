@@ -8,7 +8,7 @@ publish {
     userOrg = "dtboy"
     groupId = "org.ithot.android.transmit"
     artifactId = "http"
-    publishVersion = "0.3.0"
+    publishVersion = "0.3.1"
     desc = "android async http simple wrapper with cache policy"
     website = "https://github.com/dtboy1995/android-sex-http"
 }
@@ -22,7 +22,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 27
         versionCode 8
-        versionName "0.3.0"
+        versionName "0.3.1"
     }
 
     buildTypes {
@@ -41,5 +41,5 @@ android {
 dependencies {
     compile 'com.jakewharton:disklrucache:2.0.2'
     compile 'com.loopj.android:android-async-http:1.4.9'
-    compile project(':serializerinterface')
+    compile 'org.ithot.android.serializer:inter:1.0.0'
 }

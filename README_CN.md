@@ -5,7 +5,7 @@
 
 # 安装
 ```gradle
-implementation 'org.ithot.android.transmit:http:0.3.0'
+implementation 'org.ithot.android.transmit:http:0.3.1'
 ```
 
 # 用法
@@ -16,7 +16,7 @@ implementation 'org.ithot.android.transmit:http:0.3.0'
 ```
 - ### JSON序列化器
 ```gradle
-implementation 'org.ithot.android.serializer:gson:1.0.0'
+implementation 'org.ithot.android.serializer:gson:1.0.1'
 ```
 - ### 例子
 ```java
