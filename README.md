@@ -14,28 +14,14 @@ implementation 'org.ithot.android.transmit:http:0.2.10'
   <uses-permission android:name="android.permission.INTERNET" />
   <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 ```
-- ### json (to decouple from the serialization library)
-```java
-public class JSON extends Req.JSON {
-    // you can use any serialization library
-    private Gson gson = new Gson();
-
-    @Override
-    public Object parse(String json, Type type) {
-        return gson.fromJson(json, type);
-    }
-
-    @Override
-    public String stringify(Object object) {
-        return gson.toJson(object);
-    }
-}
+- ### jsonserialier
+```gradle
+implementation 'org.ithot.android.serializer:gson:1.0.0'
 ```
 - ### sample
 ```java
-Req.JSON json = new JSON();
 // init once
-Req.init(context, json);
+Req.init(context, new JSON());
 // send request
 Req
   .build(context)
@@ -94,4 +80,22 @@ Req.hook(new IHTTPHook(){
 
   }
 })
+```
+
+### JSONSerializer
+```java
+public class Serialier extends JSONSerializer {
+    // you can use any serialization library such as Gson Fastjson etc example below
+    private Gson gson = new Gson();
+
+    @Override
+    public Object parse(String json, Type type) {
+        return gson.fromJson(json, type);
+    }
+
+    @Override
+    public String stringify(Object object) {
+        return gson.toJson(object);
+    }
+}
 ```
