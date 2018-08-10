@@ -7,12 +7,12 @@ import android.net.NetworkInfo;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.RequestHandle;
 
+import org.ithot.android.serializerinterface.JSONSerializer;
 import org.ithot.android.transmit.cache.Builder;
 import org.ithot.android.transmit.cache.CacheSerializer;
 import org.ithot.android.transmit.cache.DualCache;
 import org.ithot.android.transmit.cache.StringSerializer;
 
-import java.lang.reflect.Type;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,9 +45,9 @@ public class Req {
     // 缓存key的前缀
     private static String CACHE_KEY_PREFIX = "";
     // 与序列化库解耦
-    private static JSON _json;
+    private static JSONSerializer _json;
 
-    public static JSON json() {
+    public static JSONSerializer json() {
         return _json;
     }
 
@@ -56,7 +56,7 @@ public class Req {
      *
      * @param context
      */
-    private static void lazy(Context context, JSON json) {
+    private static void lazy(Context context, JSONSerializer json) {
         _json = json;
         CacheSerializer<String> stringSerializer = new StringSerializer();
         _cache = new Builder<String>("android-sex-http", 1)
@@ -106,7 +106,7 @@ public class Req {
      *
      * @param context
      */
-    public static void init(Context context, JSON json) {
+    public static void init(Context context, JSONSerializer json) {
         client = new AsyncHttpClient(true, 80, 443);
         lazy(context, json);
     }
@@ -117,7 +117,7 @@ public class Req {
      * @param context
      * @param http    http端口号
      */
-    public static void init(Context context, int http, JSON json) {
+    public static void init(Context context, int http, JSONSerializer json) {
         client = new AsyncHttpClient(true, http, 443);
         lazy(context, json);
     }
@@ -129,7 +129,7 @@ public class Req {
      * @param http    http端口号
      * @param https   https端口号
      */
-    public static void init(Context context, int http, int https, JSON json) {
+    public static void init(Context context, int http, int https, JSONSerializer json) {
         client = new AsyncHttpClient(true, http, https);
         lazy(context, json);
     }
@@ -579,11 +579,5 @@ public class Req {
             }
         }
         return false;
-    }
-
-    public static abstract class JSON {
-        public abstract Object parse(String json, Type type);
-
-        public abstract String stringify(Object object);
     }
 }

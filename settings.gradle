@@ -1,1 +1,1 @@
-include ':test', ':http'
+include ':test', ':http', ':serializerinterface', ':gsonserializer'

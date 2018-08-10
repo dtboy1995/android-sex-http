@@ -6,10 +6,10 @@ group = 'org.ithot'
 
 publish {
     userOrg = "dtboy"
-    groupId = "org.ithot.android.transmit"
-    artifactId = "http"
-    publishVersion = "0.3.0"
-    desc = "android async http simple wrapper with cache policy"
+    groupId = "org.ithot.android.serializer"
+    artifactId = "gson"
+    publishVersion = "1.0.0"
+    desc = "android async http simple wrapper with cache policy json serializer"
     website = "https://github.com/dtboy1995/android-sex-http"
 }
 
@@ -21,8 +21,8 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 27
-        versionCode 8
-        versionName "0.3.0"
+        versionCode 1
+        versionName "1.0.0"
     }
 
     buildTypes {
@@ -32,14 +32,9 @@ android {
         }
     }
 
-    lintOptions {
-        abortOnError false
-    }
-
 }
 
 dependencies {
-    compile 'com.jakewharton:disklrucache:2.0.2'
-    compile 'com.loopj.android:android-async-http:1.4.9'
     compile project(':serializerinterface')
+    compile 'com.google.code.gson:gson:2.8.1'
 }
