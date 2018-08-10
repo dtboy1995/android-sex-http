@@ -1,35 +1,49 @@
 # ![android-sex-http](static/icon.png)
 
 # android-sex-http [![Build Status](https://travis-ci.org/dtboy1995/android-sex-http.svg?branch=master)](https://travis-ci.org/dtboy1995/android-sex-http)
-android async http 添加缓存功能二次封装
+:airplane: 带缓存策略的http请求库
 
 # 安装
-- 在project的build.gradle中添加
-
 ```gradle
-repositories {
-    maven { url 'https://jitpack.io' }
-}
-```
-- 在module的build.gradle中添加
-
-```gradle
-compile 'com.github.dtboy1995:android-sex-http:0.10.2'
+implementation 'org.ithot.android.transmit:http:0.2.10'
 ```
 
 # 用法
+- ### 权限
+```xml
+  <uses-permission android:name="android.permission.INTERNET" />
+  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+```
+- ### json (为了不依赖序列化库, 您需要自定义序列化器)
 ```java
-// 在app启动的时候初始化一次
-Req.init(this); // Application context
-Req.base("https://api.domain.com");
-// 走起！
-Req
-  .build(this) // Activity this
-  .url("/foo")
-  .res(new Res<Foo>(){
+public class JSON extends Req.JSON {
+    // 你可以使用任何的序列化库 Gson Fastjson等
+    private Gson gson = new Gson();
+
     @Override
-    public void ok(Header[] headers, Foo response) {
-        // textView.setText(response.name)
+    public Object parse(String json, Type type) {
+        return gson.fromJson(json, type);
+    }
+
+    @Override
+    public String stringify(Object object) {
+        return gson.toJson(object);
+    }
+}
+```
+- ### 例子
+```java
+Req.JSON json = new JSON();
+// 初始化一次即可
+Req.init(context, json);
+// 发送请求
+Req
+  .build(context)
+  .url("https://your_domain/some_url")
+  .res(new Res<Dummy>(){
+    @Override
+    public void ok(Header[] headers, Dummy response) {
+
     }
 
     @Override
@@ -38,42 +52,46 @@ Req
   })
   .go();
 ```
-
-# 配置
+- ### 配置
 ```java
-Req.init(this); // 默认http是80https是443
-Req.init(this, 3000); // 设置http
-Req.init(this, 3000, 5000) // 设置https
-Req.base("https://api.foo.com"); // 设置base url
-Req.prefix("user_id"); // 用于区分不同用户的请求去缓存
-Req.debug(true); // 如果设置为true响应会有日志
-Req.hook(new IHTTPHook(){ // http生命周期钩子
+// 默认 http 80 https 443
+Req.init(context, json);
+// 设置 http 端口
+Req.init(context, 3000, json);
+// 设置 https 端口
+Req.init(context, 3000, 5000, json)
+// 设置 基 url
+Req.base("https://your_domain");
+// distinguish different users request
+Req.prefix("user_id");
+// 设置debug模式，可以打印响应
+Req.debug(true);
+// 请求生命周期钩子
+Req.hook(new IHTTPHook(){
+  // 没有网络连接
   @Override
   public void disconnected(Context context) {
-      // 没网的时候call
-  }
 
+  }
+  // 通用请求头
   @Override
   public List<Header> headers() {
-      // 添加一些通用的header
-  }
 
+  }
+  // 请求开始前
   @Override
   public void pre(Context context) {
-      // 请求前call，可以出个对话框
-  }
 
+  }
+  // 请求结束后
   @Override
   public void post(Context context) {
-      // 请求后call， 可以关闭对话框
-  }
 
+  }
+  // 请求异常
   @Override
   public void fail(Header[] headers, String response, Context context) {
-      // 非正常响应call
+
   }
 })
 ```
-
-# translations
-[英文](README.md)

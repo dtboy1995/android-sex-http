@@ -33,7 +33,7 @@ public class JSON extends Req.JSON {
 ```
 - ### sample
 ```java
-JSON json = new JSON();
+Req.JSON json = new JSON();
 // init once
 Req.init(context, json);
 // send request

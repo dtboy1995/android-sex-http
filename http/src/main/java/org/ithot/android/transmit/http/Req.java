@@ -44,7 +44,7 @@ public class Req {
     static IHTTPHook ihttpHook;
     // 缓存key的前缀
     private static String CACHE_KEY_PREFIX = "";
-    // 为了不依赖gson解耦
+    // 与序列化库解耦
     private static JSON _json;
 
     public static JSON json() {
