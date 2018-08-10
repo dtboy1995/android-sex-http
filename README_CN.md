@@ -5,7 +5,7 @@
 
 # 安装
 ```gradle
-implementation 'org.ithot.android.transmit:http:0.2.10'
+implementation 'org.ithot.android.transmit:http:0.3.0'
 ```
 
 # 用法
