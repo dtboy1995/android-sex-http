@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.widget.Toast;
 
+import org.ithot.android.serializer.gson.JSON;
 import org.ithot.android.transmit.http.IHTTPHook;
 import org.ithot.android.transmit.http.Method;
 import org.ithot.android.transmit.http.Pair;
@@ -41,14 +42,13 @@ public class TestActivity extends Activity {
     };
 
     Req req;
-    Req.JSON json = new JSON();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // init
-        Req.init(this, json);
+        Req.init(this, new JSON());
         // Req.init(this,3000, json);
         // Req.init(this, 3000, 5000, json);
         Req.base("http://apistage.wenanle.com");
