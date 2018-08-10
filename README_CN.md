@@ -14,28 +14,14 @@ implementation 'org.ithot.android.transmit:http:0.2.10'
   <uses-permission android:name="android.permission.INTERNET" />
   <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 ```
-- ### json (为了不依赖序列化库, 您需要自定义序列化器)
-```java
-public class JSON extends Req.JSON {
-    // 你可以使用任何的序列化库 Gson Fastjson等
-    private Gson gson = new Gson();
-
-    @Override
-    public Object parse(String json, Type type) {
-        return gson.fromJson(json, type);
-    }
-
-    @Override
-    public String stringify(Object object) {
-        return gson.toJson(object);
-    }
-}
+- ### JSON序列化器
+```gradle
+implementation 'org.ithot.android.serializer:gson:1.0.0'
 ```
 - ### 例子
 ```java
-Req.JSON json = new JSON();
 // 初始化一次即可
-Req.init(context, json);
+Req.init(context, new JSON());
 // 发送请求
 Req
   .build(context)
@@ -55,11 +41,11 @@ Req
 - ### 配置
 ```java
 // 默认 http 80 https 443
-Req.init(context, json);
+Req.init(context, serialier);
 // 设置 http 端口
-Req.init(context, 3000, json);
+Req.init(context, 3000, serialier);
 // 设置 https 端口
-Req.init(context, 3000, 5000, json)
+Req.init(context, 3000, 5000, serialier)
 // 设置 基 url
 Req.base("https://your_domain");
 // distinguish different users request
@@ -93,5 +79,24 @@ Req.hook(new IHTTPHook(){
   public void fail(Header[] headers, String response, Context context) {
 
   }
-})
+});
+```
+
+### 自定义JSON序列化器
+```java
+public class Serialier extends JSONSerializer {
+    // 您可以使用任何序列化库，比如Gson或者FastJson等
+    private Gson gson = new Gson();
+
+    @Override
+    public Object parse(String json, Type type) {
+        return gson.fromJson(json, type);
+    }
+
+    @Override
+    public String stringify(Object object) {
+        return gson.toJson(object);
+    }
+}
+Req.init(context, new Serialier());
 ```

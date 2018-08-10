@@ -14,7 +14,7 @@ implementation 'org.ithot.android.transmit:http:0.2.10'
   <uses-permission android:name="android.permission.INTERNET" />
   <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 ```
-- ### jsonserialier
+- ### jsonserializer
 ```gradle
 implementation 'org.ithot.android.serializer:gson:1.0.0'
 ```
@@ -41,11 +41,11 @@ Req
 - ### config
 ```java
 // default http 80 https 443
-Req.init(context, json);
+Req.init(context, serialier);
 // set http port
-Req.init(context, 3000, json);
+Req.init(context, 3000, serialier);
 // set https port
-Req.init(context, 3000, 5000, json)
+Req.init(context, 3000, 5000, serialier)
 // set base url example for https://api.somedomain.com
 Req.base("https://your_domain");
 // distinguish different users request
@@ -79,10 +79,10 @@ Req.hook(new IHTTPHook(){
   public void fail(Header[] headers, String response, Context context) {
 
   }
-})
+});
 ```
 
-### JSONSerializer
+### Custom JSONSerializer
 ```java
 public class Serialier extends JSONSerializer {
     // you can use any serialization library such as Gson Fastjson etc example below
@@ -98,4 +98,5 @@ public class Serialier extends JSONSerializer {
         return gson.toJson(object);
     }
 }
+Req.init(context, new Serialier());
 ```
