@@ -82,9 +82,9 @@ Req.hook(new IHTTPHook(){
 });
 ```
 
-### 自定义JSON序列化器
+- ### 自定义JSON序列化器
 ```java
-public class Serialier extends JSONSerializer {
+public class Serializer extends JSONSerializer {
     // 您可以使用任何序列化库，比如Gson或者FastJson等
     private Gson gson = new Gson();
 
@@ -98,5 +98,5 @@ public class Serialier extends JSONSerializer {
         return gson.toJson(object);
     }
 }
-Req.init(context, new Serialier());
+Req.init(context, new Serializer());
 ```
