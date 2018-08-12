@@ -9,7 +9,7 @@ implementation 'org.ithot.android.transmit:http:0.3.1'
 ```
 
 # usage
-- ### permissions (note the runtime permissions after Android6.0 (included))
+- ### permissions
 ```xml
   <uses-permission android:name="android.permission.INTERNET" />
   <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
