@@ -9,7 +9,7 @@ implementation 'org.ithot.android.transmit:http:0.3.1'
 ```
 
 # 用法
-- ### 权限
+- ### 权限 (Android6.0以后(包含)注意运行时权限)
 ```xml
   <uses-permission android:name="android.permission.INTERNET" />
   <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
