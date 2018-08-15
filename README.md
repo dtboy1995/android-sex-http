@@ -82,7 +82,7 @@ Req.hook(new IHTTPHook(){
 });
 ```
 
-- ### custom JSONSerializer
+- ### custom json serializer
 ```java
 public class Serializer extends JSONSerializer {
     // you can use any serialization library such as Gson Fastjson etc example below
