@@ -20,7 +20,7 @@ implementation 'org.ithot.android.serializer:gson:1.0.1'
 ```
 - ### sample
 ```java
-public class Dummy{
+public class Dummy {
   public String id;
 }
 ```

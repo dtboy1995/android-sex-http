@@ -20,12 +20,17 @@ implementation 'org.ithot.android.serializer:gson:1.0.1'
 ```
 - ### 例子
 ```java
+public class Dummy {
+  public String id;
+}
+```
+```java
 // 初始化一次即可
 Req.init(context, new JSON());
 // 发送请求
 Req
   .build(context)
-  .url("https://your_domain/some_url")
+  .url("https://ithot.org/dummy")
   .res(new Res<Dummy>(){
     @Override
     public void ok(Header[] headers, Dummy response) {
