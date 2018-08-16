@@ -20,12 +20,17 @@ implementation 'org.ithot.android.serializer:gson:1.0.1'
 ```
 - ### sample
 ```java
+public class Dummy{
+  public String id;
+}
+```
+```java
 // init once
 Req.init(context, new JSON());
 // send request
 Req
   .build(context)
-  .url("https://your_domain/some_url")
+  .url("https://ithot.org/dummy")
   .res(new Res<Dummy>(){
     @Override
     public void ok(Header[] headers, Dummy response) {
@@ -47,7 +52,7 @@ Req.init(context, 3000, serialier);
 // set https port
 Req.init(context, 3000, 5000, serialier)
 // set base url example for https://api.somedomain.com
-Req.base("https://your_domain");
+Req.base("https://ithot.org");
 // distinguish different users request
 Req.prefix("user_id");
 // if true log response default false
