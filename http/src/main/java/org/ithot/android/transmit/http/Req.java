@@ -5,7 +5,10 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.FileAsyncHttpResponseHandler;
+import com.loopj.android.http.RangeFileAsyncHttpResponseHandler;
 import com.loopj.android.http.RequestHandle;
+import com.loopj.android.http.RequestParams;
 
 import org.ithot.android.serializerinterface.JSONSerializer;
 import org.ithot.android.transmit.cache.Builder;
@@ -13,6 +16,7 @@ import org.ithot.android.transmit.cache.CacheSerializer;
 import org.ithot.android.transmit.cache.DualCache;
 import org.ithot.android.transmit.cache.StringSerializer;
 
+import java.io.File;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
@@ -580,4 +584,71 @@ public class Req {
         }
         return false;
     }
+
+    // new feature
+
+    private RequestParams _params;
+    private FileRes _fileRes;
+
+    private Req params(RequestParams _params_) {
+        this._params = _params_;
+        return this;
+    }
+
+    public Req res(FileRes fileRes) {
+        _fileRes = fileRes;
+        return this;
+    }
+
+    public void download(File file) {
+        download(file, false);
+    }
+
+    public void download(File file, boolean ugly) {
+
+        if (!isNetworkConnected(_context)) {
+            _fileRes.disconnected(_context);
+            return;
+        }
+
+        FileAsyncHttpResponseHandler handler;
+        if (ugly) {
+            handler = new FileAsyncHttpResponseHandler(file) {
+                @Override
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
+                    _fileRes.undone();
+                }
+
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, File file) {
+                    _fileRes.done(file);
+                }
+
+                @Override
+                public void onProgress(long bytesWritten, long totalSize) {
+                    _fileRes.progress(Utils.progress(bytesWritten, totalSize));
+                }
+            };
+        } else {
+            handler = new RangeFileAsyncHttpResponseHandler(file) {
+                @Override
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
+                    _fileRes.undone();
+                }
+
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, File file) {
+                    _fileRes.done(file);
+                }
+
+                @Override
+                public void onProgress(long bytesWritten, long totalSize) {
+                    _fileRes.progress(Utils.progress(bytesWritten, totalSize));
+                }
+            };
+        }
+
+        client.get(_context, _url, _headers_(), _params, handler);
+    }
+
 }

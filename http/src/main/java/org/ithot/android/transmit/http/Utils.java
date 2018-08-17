@@ -44,7 +44,7 @@ public class Utils {
         return ret;
     }
 
-    public int progress(long bytesWritten, long totalSize) {
+    public static int progress(long bytesWritten, long totalSize) {
         double d = totalSize > 0L ? (double) bytesWritten * 1.0D / (double) totalSize * 100.0D : -1.0D;
         return (int) d;
     }

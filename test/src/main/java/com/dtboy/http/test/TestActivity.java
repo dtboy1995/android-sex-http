@@ -3,11 +3,13 @@ package com.dtboy.http.test;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.widget.Toast;
 
 import org.ithot.android.serializer.gson.JSON;
+import org.ithot.android.transmit.http.FileRes;
 import org.ithot.android.transmit.http.IHTTPHook;
 import org.ithot.android.transmit.http.Method;
 import org.ithot.android.transmit.http.Pair;
@@ -16,6 +18,7 @@ import org.ithot.android.transmit.http.Req;
 import org.ithot.android.transmit.http.Res;
 import org.ithot.android.transmit.http.Utils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -89,11 +92,46 @@ public class TestActivity extends Activity {
         //  prefix();
         // simpleGET();
         //  stringGET();
-        listGET();
+        //  listGET();
         //  simplePOST();
         //  simplePUT();
         //  simpleDELETE();
         //  cancel();
+        // download();
+    }
+
+    void download() {
+        File file = new File(Environment.getExternalStorageDirectory()
+                + File.separator
+                + "ithot"
+                + File.separator
+                + "test.mp3");
+        Req.build(this)
+                .base(false)
+                .url("https://wa-static-resource.oss-cn-beijing.aliyuncs.com/music/guideng3.mp3")
+                .res(new FileRes() {
+                    @Override
+                    public void done(File f) {
+                        Utils.Logger.error(f.toString());
+                    }
+
+                    @Override
+                    public void undone() {
+                        Utils.Logger.error("undone");
+                    }
+
+                    @Override
+                    public void progress(int rate) {
+                        Utils.Logger.error(rate + "");
+                        /**
+                         * if (rate>50){
+                         System.exit(0);
+                         }
+                         */
+                    }
+
+                })
+                .download(file);
     }
 
     void prefix() {
