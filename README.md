@@ -28,20 +28,19 @@ public class Dummy {
 // init once
 Req.init(context, new JSON());
 // send request
-Req
-  .build(context)
-  .url("https://ithot.org/dummy")
-  .res(new Res<Dummy>(){
-    @Override
-    public void ok(Header[] headers, Dummy response) {
+Req.build(context)
+   .url("https://ithot.org/dummy")
+   .res(new Res<Dummy>(){
+     @Override
+     public void ok(Header[] headers, Dummy response) {
 
-    }
+     }
 
-    @Override
-    public void no(Header[] headers, String error) {
-    }
-  })
-  .go();
+     @Override
+     public void no(Header[] headers, String error) {
+     }
+   })
+   .go();
 ```
 - ### config
 ```java
