@@ -22,7 +22,7 @@ allprojects {
 }
 
 tasks.getByPath(":serializerinterface:bintrayUpload").enabled = false
-tasks.getByPath(":gsonserializer:bintrayUpload").enabled = true
+tasks.getByPath(":gsonserializer:bintrayUpload").enabled = false
 tasks.getByPath(":http:bintrayUpload").enabled = true
 
 task clean(type: Delete) {

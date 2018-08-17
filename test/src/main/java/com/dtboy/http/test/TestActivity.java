@@ -105,10 +105,10 @@ public class TestActivity extends Activity {
                 + File.separator
                 + "ithot"
                 + File.separator
-                + "test.mp3");
+                + "test2.mp3");
         Req.build(this)
                 .base(false)
-                .url("https://wa-static-resource.oss-cn-beijing.aliyuncs.com/music/guideng3.mp3")
+                .url("https://ithot.org/music")
                 .res(new FileRes() {
                     @Override
                     public void done(File f) {

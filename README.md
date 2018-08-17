@@ -5,7 +5,7 @@
 
 # install
 ```gradle
-implementation 'org.ithot.android.transmit:http:0.3.1'
+implementation 'org.ithot.android.transmit:http:0.3.2'
 ```
 
 # usage
@@ -104,4 +104,31 @@ public class Serializer extends JSONSerializer {
     }
 }
 Req.init(context, new Serializer());
+```
+
+- ### download (break restoration)
+```xml
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+```
+```java
+File file = new File(Environment.getExternalStorageDirectory() + File.separator + "test.mp3");
+Req.build(context)
+   .base(false)
+   .url("https://ithot.org/music")
+   .res(new FileRes() {
+        @Override
+        public void done(File f) {
+        }
+
+        @Override
+        public void undone() {
+        }
+
+        @Override
+        public void progress(int rate) {
+        }
+
+    })
+  .download(file);
 ```
