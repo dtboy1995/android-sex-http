@@ -28,20 +28,19 @@ public class Dummy {
 // 初始化一次即可
 Req.init(context, new JSON());
 // 发送请求
-Req
-  .build(context)
-  .url("https://ithot.org/dummy")
-  .res(new Res<Dummy>(){
-    @Override
-    public void ok(Header[] headers, Dummy response) {
+Req.build(context)
+   .url("https://ithot.org/dummy")
+   .res(new Res<Dummy>(){
+     @Override
+     public void ok(Header[] headers, Dummy response) {
+ 
+     }
 
-    }
-
-    @Override
-    public void no(Header[] headers, String error) {
-    }
-  })
-  .go();
+     @Override
+     public void no(Header[] headers, String error) {
+     }
+   })
+   .go();
 ```
 - ### 配置
 ```java
