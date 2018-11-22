@@ -42,6 +42,8 @@ Req.build(context)
    })
    .go();
 ```
+- ### 缓存策略
+  - [查看源码注释](https://github.com/dtboy1995/android-sex-http/blob/master/http/src/main/java/org/ithot/android/transmit/http/Policy.java)
 - ### 配置
 ```java
 // 默认 http 80 https 443
